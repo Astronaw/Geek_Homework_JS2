@@ -1,16 +1,16 @@
 class ProductList {
-  goods;
-  allProducts;
+  goods = [];
+  allProducts = [];
+  container = null;
+
   constructor(container = '.products') {
     this.container = container;
-    this.goods = [];
-    this.allProducts = [];
 
-    this.fetchGoods();
-    this.render();
+    this._fetchGoods();
+    this._render();
   }
 
-  fetchGoods() {
+  _fetchGoods() {
     this.goods = [
       {id: 1, title: 'Notebook', price: 20000},
       {id: 2, title: 'Mouse', price: 1500},
@@ -19,7 +19,7 @@ class ProductList {
     ];
   }
 
-  render() {
+  _render() {
     const block = document.querySelector(this.container);
 
     for (let product of this.goods) {
@@ -32,6 +32,11 @@ class ProductList {
 }
 
 class ProductItem {
+  title = '';
+  price = 0;
+  id = 0;
+  img = '';
+
   constructor(product, img='https://via.placeholder.com/200x150') {
     this.title = product.title;
     this.price = product.price;
