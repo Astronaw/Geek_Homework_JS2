@@ -29,6 +29,11 @@ class ProductList {
       block.insertAdjacentHTML('beforeend', productObject.render());
     }
   }
+
+  _totalCost() {
+    return this.goods.reduce((cost, item) => cost + item.price, 0);
+  }
+
 }
 
 class ProductItem {
