@@ -13,7 +13,7 @@ class ProductList {
   totalCost() {
     return this.allProducts.reduce((cost, item) => cost + item.price, 0);
   }
-  
+
   _fetchGoods() {
     this.goods = [
       {id: 1, title: 'Notebook', price: 20000},
