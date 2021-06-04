@@ -10,6 +10,10 @@ class ProductList {
     this._render();
   }
 
+  totalCost() {
+    return this.allProducts.reduce((cost, item) => cost + item.price, 0);
+  }
+  
   _fetchGoods() {
     this.goods = [
       {id: 1, title: 'Notebook', price: 20000},
@@ -29,11 +33,6 @@ class ProductList {
       block.insertAdjacentHTML('beforeend', productObject.render());
     }
   }
-
-  _totalCost() {
-    return this.goods.reduce((cost, item) => cost + item.price, 0);
-  }
-
 }
 
 class ProductItem {
@@ -62,3 +61,4 @@ class ProductItem {
 }
 
 const catalog = new ProductList();
+console.log(catalog.totalCost());
