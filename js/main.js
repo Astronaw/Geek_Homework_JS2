@@ -1,3 +1,21 @@
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+
+// Переделать в ДЗ не использовать fetch а Promise! Дальше НЕ ИСПОЛЬЗОВАТЬ!!!
+let getRequest = (url, cb) => {
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4) {
+      if (xhr.status !== 200) {
+        console.log('Error');
+      } else {
+        cb(xhr.responseText);
+      }
+    }
+  };
+  xhr.send();
+};
+
 class ProductList {
   goods = [];
   allProducts = [];
@@ -6,21 +24,21 @@ class ProductList {
   constructor(container = '.products') {
     this.container = container;
 
-    this._fetchGoods();
-    this._render();
+    this._getProducts()
+        .then((data) => {
+          this.goods = data;
+          this._render();
+        });
   }
 
   totalCost() {
     return this.allProducts.reduce((cost, item) => cost + item.price, 0);
   }
 
-  _fetchGoods() {
-    this.goods = [
-      {id: 1, title: 'Notebook', price: 20000},
-      {id: 2, title: 'Mouse', price: 1500},
-      {id: 3, title: 'Keyboard', price: 5000},
-      {id: 4, title: 'Gamepad', price: 4500},
-    ];
+  _getProducts() {
+    return fetch(`${API}/catalogData.json`)
+        .then((response) => response.json())
+        .catch((err) => console.log(err));
   }
 
   _render() {
@@ -42,9 +60,9 @@ class ProductItem {
   img = '';
 
   constructor(product, img='https://via.placeholder.com/200x150') {
-    this.title = product.title;
+    this.title = product.product_name;
     this.price = product.price;
-    this.id = product.id;
+    this.id = product.id_product;
     this.img = img;
   }
 
@@ -61,4 +79,3 @@ class ProductItem {
 }
 
 const catalog = new ProductList();
-console.log(catalog.totalCost());
