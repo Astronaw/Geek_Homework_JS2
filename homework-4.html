@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HW4</title>
+    <style>
+        .form {
+
+        }
+
+        .name {
+            margin-bottom: 10px;
+        }
+
+        .error {
+            border: solid 2px red;
+        }
+    </style>
+</head>
+<body>
+<h2>Задание 1</h2>
+    <p id="text">
+        One: 'Hi Mary.' Two: 'Oh, hi.'<br>
+        One: 'How are you doing?'<br>
+        Two: 'I'm doing alright. How about you?'<br>
+        One: 'Not too bad. The weather is great isn't it?'<br>
+        Two: 'Yes. It's absolutely beautiful today.'<br>
+        One: 'I wish it was like this more frequently.'<br>
+        Two: 'Me too.'<br>
+        One: 'So where are you going now?'<br>
+        Two: 'I'm going to meet a friend of mine at the department store'<br>
+        One: 'Going to do a little shopping?'<br>
+        Two: 'Yeah, I have to buy some presents for my parents.'<br>
+        One: 'What's the occasion?'<br>
+        Two: 'It's their anniversary.'<br>
+        One: 'That's great. Well, you better get going. You don't want to be late.'<br>
+        Two: 'I'll see you next time.'<br>
+        One: 'Sure.' Bye.'
+    </p>
+    <button id="btn1">Преобразовать все кавычки</button>
+    <button id="btn2">Преобразовать только нужные кавычки</button>
+    <button id="btn3">Вернуть к исходному варианту</button>
+
+    <script>
+        const block = document.getElementById('text');
+
+        document.getElementById('btn1').addEventListener('click', () => {
+            block.innerHTML = block.innerHTML.replace(/'/g, '"');
+        })
+
+        document.getElementById('btn2').addEventListener('click', () => {
+            block.innerHTML = block.innerHTML.replace(/\B'|'\B/g, '"')
+        })
+
+        document.getElementById('btn3').addEventListener('click', () => {
+            block.innerHTML = block.innerHTML.replace(/"/g, '\'')
+        })
+    </script>
+
+    <h2>Задание 2</h2>
+
+    <form class="form" method="post" action="#">
+        <p class="text">Введите ваше имя</p>
+        <input class="name" type="text">
+        <br>
+        <button class="input" type="submit">Отправить</button>
+    </form>
+
+    <script>
+
+        const myPatterns = {
+            name: /^[a-zа-яё]+$/i
+        }
+
+        class Validator {
+            myForm = document.querySelector('.form');
+            inputSelector = this.myForm.querySelector('.name');
+            inputContent = null;
+            patterns = null;
+
+            constructor(patterns) {
+                this.patterns = patterns
+                this.init();
+            }
+
+            init() {
+                this.myForm.addEventListener('submit', evt => {
+                    this.inputContent = this.inputSelector.value;
+
+                    if (!this.isValid()) {
+                        evt.preventDefault();
+                        this.error();
+                    }
+                })
+            }
+
+            isValid() {
+                if (this.patterns.name.test(this.inputContent)) {
+                    this.inputSelector.classList.remove('error');
+                    return true;
+                }
+            }
+
+            error() {
+                this.inputSelector.classList.add('error');
+                document.querySelector('.text').innerHTML = '<p style="color: red;">Имя должно состоять только из букв!<p>'
+            }
+        }
+            new Validator(myPatterns);
+    </script>
+</body>
+</html>
